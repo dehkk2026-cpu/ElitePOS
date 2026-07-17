@@ -25,7 +25,13 @@ jobs:
         pip install --upgrade buildozer cython virtualenv
 
     - name: Build with Buildozer
-      run: yes | buildozer android debug
+      run: |
+        mkdir -p ~/.android
+        touch ~/.android/repositories.cfg
+        # الموافقة التلقائية على التراخيص
+        yes | buildozer android debug
+      env:
+        ANDROID_ACCEPT_LICENSE: "1"
 
     - name: Upload APK
       uses: actions/upload-artifact@v4

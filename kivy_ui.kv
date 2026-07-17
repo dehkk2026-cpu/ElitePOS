@@ -1,0 +1,220 @@
+<ProductItem>:
+size_hint_y: None
+height: "100dp"
+padding: "8dp"
+elevation: 2
+ripple_behavior: True
+md_bg_color: app.theme_cls.primary_light
+​MDBoxLayout:
+orientation: 'vertical'
+MDLabel:
+text: root.name
+font_style: "H6"
+halign: "center"
+MDLabel:
+text: f"${root.price:.2f}"
+halign: "center"
+theme_text_color: "Secondary"
+​<CartItem>:
+size_hint_y: None
+height: "60dp"
+padding: "8dp"
+elevation: 1
+​MDBoxLayout:
+orientation: 'horizontal'
+MDLabel:
+text: root.name
+size_hint_x: 0.5
+MDLabel:
+text: f"x{root.qty}"
+size_hint_x: 0.2
+halign: "center"
+MDLabel:
+text: f"${root.price * root.qty:.2f}"
+size_hint_x: 0.3
+halign: "right"
+​<CashierScreen>:
+MDBoxLayout:
+orientation: 'horizontal'
+​MDBoxLayout:
+orientation: 'vertical'
+size_hint_x: 0.65
+padding: "8dp"
+spacing: "8dp"
+​MDBoxLayout:
+size_hint_y: None
+height: "50dp"
+MDIconButton:
+icon: "lock"
+on_release: root.manager.current = 'admin'
+MDLabel:
+text: "Cashier System"
+font_style: "H5"
+halign: "center"
+​ScrollView:
+MDGridLayout:
+id: products_grid
+cols: 3
+spacing: "10dp"
+padding: "10dp"
+size_hint_y: None
+height: self.minimum_height
+​MDCard:
+orientation: 'vertical'
+size_hint_x: 0.35
+padding: "8dp"
+spacing: "8dp"
+elevation: 3
+​MDLabel:
+text: "Current Order"
+font_style: "H6"
+size_hint_y: None
+height: "40dp"
+​ScrollView:
+MDBoxLayout:
+id: cart_list
+orientation: 'vertical'
+size_hint_y: None
+height: self.minimum_height
+spacing: "4dp"
+​MDLabel:
+id: total_label
+text: "Total: $0.00"
+font_style: "H5"
+halign: "right"
+size_hint_y: None
+height: "50dp"
+theme_text_color: "Primary"
+​MDGridLayout:
+cols: 4
+size_hint_y: None
+height: "120dp"
+spacing: "4dp"
+​MDRaisedButton:
+text: "1"
+size_hint: 1, 1
+on_release: root.set_quantity('1')
+MDRaisedButton:
+text: "2"
+size_hint: 1, 1
+on_release: root.set_quantity('2')
+MDRaisedButton:
+text: "3"
+size_hint: 1, 1
+on_release: root.set_quantity('3')
+MDRaisedButton:
+text: "Clear"
+size_hint: 1, 1
+md_bg_color: 1, 0, 0, 1
+on_release: root.set_quantity('Clear')
+MDRaisedButton:
+text: "4"
+size_hint: 1, 1
+on_release: root.set_quantity('4')
+MDRaisedButton:
+text: "5"
+size_hint: 1, 1
+on_release: root.set_quantity('5')
+MDRaisedButton:
+text: "6"
+size_hint: 1, 1
+on_release: root.set_quantity('6')
+MDRaisedButton:
+text: "Del"
+size_hint: 1, 1
+md_bg_color: 0.8, 0.4, 0, 1
+on_release: root.clear_cart()
+​MDRaisedButton:
+text: "PAY & PRINT"
+font_size: "24sp"
+size_hint: 1, None
+height: "80dp"
+md_bg_color: 0, 0.6, 0, 1
+on_release: root.pay_and_print()
+​<AdminScreen>:
+MDBoxLayout:
+orientation: 'vertical'
+​MDTopAppBar:
+title: "Admin Panel"
+left_action_items: [["arrow-left", lambda x: setattr(root.manager, 'current', 'cashier')]]
+​MDBottomNavigation:
+​MDBottomNavigationItem:
+name: 'screen_products'
+text: 'Products'
+icon: 'package-variant'
+​MDBoxLayout:
+orientation: 'vertical'
+padding: "16dp"
+spacing: "10dp"
+​MDTextField:
+id: prod_name
+hint_text: "Product Name"
+MDTextField:
+id: prod_price
+hint_text: "Price"
+input_filter: "float"
+​MDRaisedButton:
+text: "Add Product"
+on_release: root.add_product()
+​ScrollView:
+MDList:
+id: admin_product_list
+​MDBottomNavigationItem:
+name: 'screen_printer'
+text: 'Printer'
+icon: 'printer-pos'
+​MDBoxLayout:
+orientation: 'vertical'
+padding: "16dp"
+spacing: "10dp"
+​MDLabel:
+id: printer_status
+text: "Status: Disconnected"
+halign: "center"
+font_style: "H6"
+​MDRaisedButton:
+text: "Scan BLE Printers"
+pos_hint: {"center_x": .5}
+on_release: root.scan_bluetooth()
+​ScrollView:
+MDList:
+id: ble_devices_list
+​MDBottomNavigationItem:
+name: 'screen_stats'
+text: 'Statistics'
+icon: 'chart-bar'
+​MDBoxLayout:
+orientation: 'vertical'
+padding: "16dp"
+spacing: "20dp"
+​MDCard:
+orientation: "vertical"
+padding: "16dp"
+size_hint_y: None
+height: "150dp"
+​MDLabel:
+text: "Total Orders"
+halign: "center"
+MDLabel:
+id: total_orders
+text: "0"
+font_style: "H3"
+halign: "center"
+​MDCard:
+orientation: "vertical"
+padding: "16dp"
+size_hint_y: None
+height: "150dp"
+​MDLabel:
+text: "Total Sales"
+halign: "center"
+MDLabel:
+id: total_sales
+text: "$0.00"
+font_style: "H3"
+halign: "center"
+​MDRaisedButton:
+text: "Close Shift (Z-Report)"
+md_bg_color: 1, 0, 0, 1
+pos_hint: {"center_x": .5}
+on_release: root.close_shift()
